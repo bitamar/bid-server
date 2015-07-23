@@ -2,10 +2,10 @@ module.exports = {
 
     tokens: {},
 
-    set: function(token) {
+    set: function(token, balance) {
         this.tokens[token] = {
             token: token,
-            balance: 123
+            balance: balance
         };
     },
 

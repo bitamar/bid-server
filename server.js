@@ -1,24 +1,31 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
+//var mongoose = require('mongoose');
 
 var config = require('app/config');
-var User = require('app/models/user');
-var admin = require('app/routes/admin.js');
+//var User = require('app/models/user');
 
-mongoose.connect(config.database);
+var adminRoutes = require('app/routes/admin');
+var auctionsRoutes = require('app/routes/auctions');
 
-// Use body parser so we can get info from POST and/or URL parameters
-app.use(bodyParser.urlencoded({ extended: false }));
+//mongoose.connect(config.database);
+
+// Parse request body.
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
-// basic route
-app.get('/', function(req, res) {
-    res.send('Hello! The API is at http://localhost:' + config.port + '/api');
-});
-
-app.use('/admin', admin);
+// Routes
+app.use('/admin', adminRoutes);
+app.use('/auctions', auctionsRoutes);
 
 // Start the server.
 app.listen(config.port);
+
+// Dummy content.
+var Token = require('app/models/token');
+var Auction = require('app/models/auction');
+Token.set('user1', 200);
+Token.set('user2', 600);
+Auction.set(1, 100);
+Auction.set(2, 50);
